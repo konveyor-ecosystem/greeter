@@ -1,0 +1,19 @@
+{#include template}
+<form id="greetForm" action="/greet" method="post">
+    <div class="panel-grid columns-3">
+        <label for="username">Enter username:</label>
+        <input type="text" id="username" name="username" value="{username ?: ''}" />
+        {usernameValidation ?: ''}
+    </div>
+
+    <button type="submit" id="greet">Greet!</button>
+</form>
+
+{#if greeting}
+    <div class="greeting">
+        {greeting}
+    </div>
+{/if}
+
+<a href="/create">Add a new user</a>
+{/include}

@@ -16,43 +16,62 @@
  */
 package org.jboss.as.quickstarts.greeter.web;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.jboss.as.quickstarts.greeter.domain.User;
 import org.jboss.as.quickstarts.greeter.domain.UserDao;
 
-@Named
+import io.quarkus.qute.Template;
+import io.quarkus.qute.TemplateInstance;
+
+@Path("/greet")
 @RequestScoped
 public class GreetController {
 
     @Inject
+    Template greet;
+
+    @Inject
     private UserDao userDao;
 
-    private String username;
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public Response renderGreetPage() {
+        TemplateInstance greetInstance = greet
+                .data("greeting", null);
 
-    private String greeting;
+        return Response
+                .ok(greetInstance.render())
+                .build();
+    }
 
-    public void greet() {
+    @POST
+    @Produces(MediaType.TEXT_HTML)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response greet(@FormParam("username") String username) {
+        String greeting;
+
         User user = userDao.getForUsername(username);
         if (user != null) {
             greeting = "Hello, " + user.getFirstName() + " " + user.getLastName() + "!";
         } else {
             greeting = "No such user exists! Use 'emuster' or 'jdoe'";
         }
-    }
 
-    public String getUsername() {
-        return username;
-    }
+        TemplateInstance greetInstance = greet
+                .data("greeting", greeting);
 
-    public void setUsername(String username) {
-        this.username = username;
+        return Response
+                .ok(greetInstance.render())
+                .build();
     }
-
-    public String getGreeting() {
-        return greeting;
-    }
-
 }

@@ -16,14 +16,14 @@
  */
 package org.jboss.as.quickstarts.greeter.domain;
 
-import javax.ejb.Stateful;
-import javax.enterprise.inject.Alternative;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Alternative;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 
-@Stateful
+@Dependent
 @Alternative
 public class EJBUserDao implements UserDao {
 

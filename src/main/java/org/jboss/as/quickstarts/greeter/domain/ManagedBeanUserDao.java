@@ -16,13 +16,15 @@
  */
 package org.jboss.as.quickstarts.greeter.domain;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
+import jakarta.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
 
+@Dependent
 public class ManagedBeanUserDao implements UserDao {
 
     @Inject
